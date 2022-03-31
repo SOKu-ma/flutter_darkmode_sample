@@ -7,3 +7,7 @@
 - 状態管理にRiverPodを使用
 
 ![test](https://user-images.githubusercontent.com/63183950/160859125-7fcdaae5-47f9-40f4-967a-56ee407e62d9.gif)
+
+
+Qiitaで記事も書いています。  
+[リンク](https://qiita.com/sokumaeng2020/items/f80db2be73274815359f)
