@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // ダークモード判定用プロバイダー
 final isDarkModeProvider = StateProvider((ref) => false);
@@ -36,7 +37,7 @@ class MyHomePage extends ConsumerWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  build(BuildContext context, WidgetRef ref) {
     // カウントアップを監視
     final _counter = ref.watch(counterProvider);
     final _counterNotifier = ref.watch(counterProvider.notifier);
@@ -61,8 +62,11 @@ class MyHomePage extends ConsumerWidget {
             Switch(
               value: _isDarkMode,
               activeColor: _isDarkMode ? Colors.pink : Colors.blue,
-              onChanged: (value) {
+              onChanged: (value) async {
                 _isDarkModeNotifier.update((state) => !state);
+                final SharedPreferences prefs =
+                    await SharedPreferences.getInstance();
+                prefs.setBool('darkModeFlg', _isDarkMode);
               },
             )
           ],
@@ -78,14 +82,4 @@ class MyHomePage extends ConsumerWidget {
       ),
     );
   }
-}
-
-///ダークモードかどうか
-///true:dark, false:light
-bool isDarkMode(BuildContext context) {
-// Brightness platformBrightnessOf(BuildContext context) {
-  final Brightness brightness = MediaQuery.platformBrightnessOf(context);
-  // MediaQuery.maybeOf(context)?.platformBrightness ?? Brightness.light;
-  // return MediaQuery.maybeOf(context)?.platformBrightness ?? Brightness.light;
-  return brightness == Brightness.dark;
 }
